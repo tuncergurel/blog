@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table id="myStaticDatatable">
+        <thead>
+        <tr>
+            <th>Currency ID</th>
+            <th>Currency Code</th>
+            <th>Currency Name</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in records %}
+
+            <tr>
+                <td>{{ record.curr_id }}</td>
+                <td>
+                    {{ record.curr_code }}
+                </td>
+                <td>
+                    {{ record.curr_name }}
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('#myStaticDatatable').DataTable();
+        });
+    </script>
+{% endblock %}
