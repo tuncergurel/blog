@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">#}
+    <title>My Django Project</title>
+</head>
+
+    {% include "includes/navbar.html" %}
+    {% load humanize %}
+
+<div class=" row">
+    <div>
+        {% block content %}
+            <table id="myStaticDatatable">
+                <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Coin Name</th>
+                    <th>Price (USD)</th>
+                    <th>24H Change</th>
+                    <th>7D Change</th>
+                    <th>Market Cap (USD)</th>
+                    <th>24H Volume (USD)</th>
+                    <th>Circulating Supply</th>
+                    <th>Last Updated</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in datas %}
+
+                    <tr>
+                        <td>{{ data.2 }}</td>
+                        <td>{{ data.3 }}</td>
+                        <td>{{ data.4 }}</td>
+                        <td><p>%{{ data.5 | floatformat:2 }}</p></td>
+                        <td><p>%{{ data.6 | floatformat:2 }}</p></td>
+                        <td>{{ data.7 | intcomma }}</td>
+                        <td>{{ data.8 | intcomma }}</td>
+                        <td>{{ data.8 | intcomma }}</td>
+                        <td>{{ data.10 }}</td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% endblock %}
+    </div>
+</div>
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('#myStaticDatatable').DataTable();
+
+            $('#myStaticDatatable tbody').on( 'click', 'tr', function () {
+                 $(this).toggleClass('selected');
+             } );
+        });
+    </script>
+{% endblock %}
+
+
+
+</html>
+
+

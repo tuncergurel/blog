@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+</head>
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+        <h3>  Cryptos </h3>
+        <hr>
+        </div>
+    </div>
+</div>
+
+<div class ="row">
+
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+            <form  method="post" >
+                 {% csrf_token %}
+                <select type="text" name = "keyword" class="player-dropdown" maxlength="64" placeholder="Coin keywords...">>
+                <option value="" disabled selected>Select...</option>
+                    {% for get_coins in get_coins %}
+                        <option> {{ get_coins}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-danger">Search</button>
+            </form>
+      </div>
+    </div>
+</div>
+    <div class="row">
+        <div>
+        {% block content %}
+            {% autoescape off %}
+
+            {% if graphs %}
+                {{ graphs | safe }}
+            {% endif %}
+
+            {% endautoescape %}
+        {% endblock content %}
+        </div>
+       <div>
+        <h4>  Last Moves </h4>
+           <table style ='width:100%'>
+                <tr><th>Name: </th> <td>{{ values.coin_name }}</td></tr>
+                <tr><th>Price: </th> <td>{{ values.coin_usd_price }}</td></tr>
+                <tr><p><th>24H Change: </th> <td><p>%{{ values.coin_percent_change_24h | floatformat:2}}</p></td></tr>
+                <tr><p><th>7D Change: </th> <td><p>%{{ values.coin_percent_change_7d | floatformat:2}}</p></td></tr>
+                <tr><p><th>Market Cap: </th> <td>{{ values.coin_usd_market_cap }}</td></tr>
+                <tr><p><th>24H Volume: </th> <td>{{ values.coin_usd_volume_24h }}</td></tr>
+                <tr><p><th>Circulating Supply: </th> <td>{{ values.coin_circulating_supply }}</td></tr>
+           </table>
+        </div>
+    </div>
+{% endblock body %}
